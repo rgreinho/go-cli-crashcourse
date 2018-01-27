@@ -32,9 +32,9 @@ import (
 var ipCmd = &cobra.Command{
 	Use:   "ip",
 	Short: "Retrieve your public IP address",
-	Long: `Retrieve your public IP address`,
+	Long:  `Retrieve your public IP address`,
 	Run: func(cmd *cobra.Command, args []string) {
-    ipifyClient := new(ipify.IpifyClient)
+		ipifyClient := new(ipify.IpifyClient)
 		ip, err := ipifyClient.GetIP()
 		if err != nil {
 			log.Fatalln("Error retrieving your IP: " + err.Error() + ".")

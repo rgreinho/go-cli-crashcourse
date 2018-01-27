@@ -7,16 +7,18 @@ import (
 
 const baseURL = "https://api.ipify.org?format=json"
 
+// Getter performs an HTTP GET request.
 type Getter interface {
 	Get(url string) (resp *http.Response, err error)
 }
 
-type IpifyClient struct {
+// Client is a client for the 'ipify.org' api.
+type Client struct {
 	HTTPClient Getter
 }
 
-// This functions calls the ipify service.
-func (i *IpifyClient) Get() (*http.Response, error) {
+// Get performs an HTTP GET request against the 'ipify.org' api.
+func (i *Client) Get() (*http.Response, error) {
 	httpClient := i.HTTPClient
 	if httpClient == nil {
 		httpClient = http.DefaultClient
@@ -29,7 +31,7 @@ func (i *IpifyClient) Get() (*http.Response, error) {
 	return res, err
 }
 
-func (i *IpifyClient) String(res *http.Response) (string, error) {
+func (i *Client) String(res *http.Response) (string, error) {
 	ip, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return "", err
@@ -38,7 +40,8 @@ func (i *IpifyClient) String(res *http.Response) (string, error) {
 	return string(ip), nil
 }
 
-func (i *IpifyClient) GetIP() (string, error) {
+// GetIP retrieves the public IP of the clien.
+func (i *Client) GetIP() (string, error) {
 	res, err := i.Get()
 	if err != nil {
 		return "", err

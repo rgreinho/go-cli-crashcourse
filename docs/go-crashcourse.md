@@ -10,14 +10,13 @@ service: [ipify](https://www.ipify.org/).
 
 Here are the steps that we will tackle about for this project:
 1. Worskpace organization
-
-  1.1 Scaffolding best practices (tools?)
-2. Use cobra for the CLI
+  1. Scaffolding best practices (tools?)
+2. Dependency management (glide)
 3. Lint the code
-4. Dependency management (glide)
-5. Debug the application (delve)
+4. Use cobra for the CLI
+5. Use viper to read parameters from a configuration file
 6. Write unit tests w/mocks (testify)
-7. Use viper to read parameters from a configuration file
+7. Debug the application (delve)
 8. Write and publish documentation
 9. Package the application
 
@@ -59,6 +58,8 @@ git init
 ```bash
 .
 ├── LICENSE
+├── Makefile
+├── README.md
 ├── cmd/
 ├── docs/
 ├── main.go
@@ -72,6 +73,7 @@ git init
 * [Organising Go Code](https://talks.golang.org/2014/organizeio.slide#11)
 * [Project layout](https://github.com/golang-standards/project-layout)
 * [Go Start](https://github.com/alco/gostart#motivation)
+
 ## CLI
 
 Start by Configuring `cobra`. Putting the author name and the license is a good start:
@@ -98,35 +100,30 @@ cobra add ip
 
 ## Linters
 
-### goimports
+To lint our project we will use [GoMetaLinter](https://github.com/alecthomas/gometalinter).
 
 ```bash
-go get golang.org/x/tools/cmd/goimports
-goimports -w .
+go get -u gopkg.in/alecthomas/gometalinter.v2
 ```
 
-### go vet
-
-### golint
-
+Create a `.gometalinter.json` configuration file
+```json
+{
+  "Enable": [
+    "goimports",
+    "golint",
+    "vet"
+  ]
+}
 ```
-go get -u github.com/golang/lint/golint
-golint
-```
-
-### Go cyclo
-
-```
-go get github.com/fzipp/gocyclo
-gocyclo .
-```
-
-Note: Try to get a percentage score
 
 ### Resources
 
 * [Go report card](https://goreportcard.com/)
 * [Go imports](https://godoc.org/golang.org/x/tools/cmd/goimports)
+* [Go lint](https://github.com/golang/lint)
+* [Go vet](https://golang.org/cmd/vet/)
+* [Go Style Common Mistakes](https://golang.org/s/style)
 
 ## Dependency management
 
@@ -153,18 +150,6 @@ glide get github.com/foo/bar
 
 * [Glide](https://glide.sh)
 
-## Configuration file
-
-### Resources
-
-* [Viper](https://github.com/spf13/viper)
-
-## Debugger - Delve
-
-### Resources
-
-* [Delve](https://github.com/derekparker/delve)
-
 ## Unit tests
 
 Install testify:
@@ -178,6 +163,18 @@ We're going to test the `api.go` file. In the `pkg` folder, create a file named 
 
 * [testify](https://github.com/stretchr/testify)
 * <http://lucasfcosta.com/2017/01/11/Getting-Started-With-Testing-in-Go.html>
+
+## Configuration file
+
+### Resources
+
+* [Viper](https://github.com/spf13/viper)
+
+## Debugger - Delve
+
+### Resources
+
+* [Delve](https://github.com/derekparker/delve)
 
 ## Write and publish documentation
 
