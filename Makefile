@@ -15,6 +15,8 @@ OS = $(word 1, $@)
 GOOS = $(shell uname -s | tr A-Z a-z)
 GOARCH = amd64
 
+default: setup
+
 help: # Display help
 	@awk -F ':|##' \
 		'/^[^\t].+?:.*?##/ {\
@@ -40,7 +42,12 @@ clean-code: ## Remove unwanted files in this project (!DESTRUCTIVE!)
 
 dist: $(PLATFORMS) ## Package the project for all available platforms
 
-.PHONY: help build ci ci-linters ci-tests clean clean-code dist
+prepare: ## Prepare the environment
+	glide install
+
+setup: prepare ## Setup the full environment (default)
+
+.PHONY: help build ci ci-linters ci-tests clean clean-code dist prepare setup
 
 $(PLATFORMS): # Build the project for all available platforms
 	mkdir -p $(BUILD_DIR)

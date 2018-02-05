@@ -93,6 +93,32 @@ cobra add ip
 
 ### Resources
 
+* [Filesystem Structure of a Go project](https://flaviocopes.com/go-filesystem-structure/)
+* [Naming convention](https://talks.golang.org/2014/names.slide#1)
+* [Organising Go Code](https://talks.golang.org/2014/organizeio.slide#11)
+* [Project layout](https://github.com/golang-standards/project-layout)
+
+## CLI
+
+Start by Configuring `cobra`. Putting the author name and the license is a good start:
+```bash
+cat << EOF > ~/.cobra.yaml
+author: Rémy Greinhofer <remy.greinhofer@gmail.com>, Dashiel Lopez Mendez <hi@dashiel.me>
+license: MIT
+EOF
+```
+Refer to the "[configuring the cobra generator](https://github.com/spf13/cobra/blob/master/cobra/README.md)" section of
+the official documentation for more details.
+
+Now install `cobra`, initialize the project and create your first command:
+```bash
+go get -u github.com/spf13/cobra/cobra
+cobra init
+cobra add ip
+```
+
+### Resources
+
 * [5 keys to create a killer CLI in Go](https://blog.alexellis.io/5-keys-to-a-killer-go-cli/)
 * [Cobra](https://github.com/spf13/cobra)
 
@@ -129,6 +155,29 @@ Note: Try to get a percentage score
 * [Go imports](https://godoc.org/golang.org/x/tools/cmd/goimports)
 
 ## Dependency management
+
+Install glide:
+```bash
+brew install glide
+```
+
+Initialize your repo and fetch the dependencies:
+```bash
+glide init
+glide update
+```
+
+You should add the `vendor/` folder to your `.gitignore` file. It will help keep your repo small and all of your
+dependencies are already well defined in `glide.yaml`.
+
+And you can install your dependencies using `glide get` instead of `go get`:
+```bash
+glide get github.com/foo/bar
+```
+
+### Resources
+
+* [Glide](https://glide.sh)
 
 ## Configuration file
 
