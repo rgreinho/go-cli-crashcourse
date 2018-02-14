@@ -33,7 +33,7 @@ ci-linters: ## Run the static analyzers
 	@echo "Not implemented yet." && exit 1
 
 ci-tests: ## Run the unit tests
-	go test
+	go test pkg/*
 
 clean: clean-code ## Clean everything (!DESTRUCTIVE!)
 

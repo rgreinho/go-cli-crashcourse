@@ -71,33 +71,7 @@ git init
 * [Naming convention](https://talks.golang.org/2014/names.slide#1)
 * [Organising Go Code](https://talks.golang.org/2014/organizeio.slide#11)
 * [Project layout](https://github.com/golang-standards/project-layout)
-
-## CLI
-
-Start by Configuring `cobra`. Putting the author name and the license is a good start:
-```bash
-cat << EOF > ~/.cobra.yaml
-author: Rémy Greinhofer <remy.greinhofer@gmail.com>, Dashiel Lopez Mendez <hi@dashiel.me>
-license: MIT
-EOF
-```
-Refer to the "[configuring the cobra generator](https://github.com/spf13/cobra/blob/master/cobra/README.md)" section of
-the official documentation for more details.
-
-Now install `cobra`, initialize the project and create your first command:
-```bash
-go get -u github.com/spf13/cobra/cobra
-cobra init
-cobra add ip
-```
-
-### Resources
-
-* [Filesystem Structure of a Go project](https://flaviocopes.com/go-filesystem-structure/)
-* [Naming convention](https://talks.golang.org/2014/names.slide#1)
-* [Organising Go Code](https://talks.golang.org/2014/organizeio.slide#11)
-* [Project layout](https://github.com/golang-standards/project-layout)
-
+* [Go Start](https://github.com/alco/gostart#motivation)
 ## CLI
 
 Start by Configuring `cobra`. Putting the author name and the license is a good start:
@@ -193,9 +167,17 @@ glide get github.com/foo/bar
 
 ## Unit tests
 
+Install testify:
+```bash
+glide get github.com/stretchr/testify
+```
+
+We're going to test the `api.go` file. In the `pkg` folder, create a file named `ipify_test.go`
+
 ### Resources
 
 * [testify](https://github.com/stretchr/testify)
+* <http://lucasfcosta.com/2017/01/11/Getting-Started-With-Testing-in-Go.html>
 
 ## Write and publish documentation
 
