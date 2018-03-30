@@ -27,7 +27,7 @@ func (m *ClientMock) Get(url string) (*http.Response, error) {
 
 func TestIpifyClientGet_00(t *testing.T) {
 	mock := &ClientMock{}
-	c := IpifyClient{HTTPClient: mock}
+	c := Client{HTTPClient: mock}
 	res, _ := c.Get()
 
 	actual := res.Body
@@ -38,7 +38,7 @@ func TestIpifyClientGet_00(t *testing.T) {
 func TestString_00(t *testing.T) {
 	mock := &ClientMock{}
 	res, _ := mock.Get("fake")
-	i := IpifyClient{}
+	i := Client{}
 
 	actual, _ := i.String(res)
 	expected := ipifyJSONResponse
