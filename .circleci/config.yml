@@ -1,0 +1,43 @@
+defaults: &defaults
+  working_directory: "/go/src/github.com/rgreinho/go-cli-crashcourse"
+
+version: 2
+jobs:
+  go:
+    <<: *defaults
+    docker:
+      - image: circleci/golang:1.10.0
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - vendor-{{ checksum "glide.lock" }}
+      - run:
+          name: Prepare the environment
+          command: |
+            curl https://glide.sh/get | sh
+            make
+
+      - save_cache:
+          key: vendor-{{ checksum "glide.lock" }}
+          paths:
+            - vendor
+
+      - run:
+          name: Run the linters
+          command: make ci-linters
+
+      - run:
+          name: Run unit tests
+          command: make ci-tests
+
+      - run:
+          name: Build the propject
+          command: make build
+
+workflows:
+  version: 2
+  go:
+    jobs:
+      - go

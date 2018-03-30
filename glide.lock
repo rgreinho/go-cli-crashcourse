@@ -50,8 +50,6 @@ imports:
   subpackages:
   - transform
   - unicode/norm
-- name: gopkg.in/alecthomas/gometalinter.v2
-  version: ccf6b7e0b794ecb74b2aabccde778511418ef8b3
 - name: gopkg.in/yaml.v2
   version: d670f9405373e636a5a2765eea47fac0c9bc91a4
 testImports: []
