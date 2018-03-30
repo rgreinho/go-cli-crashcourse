@@ -30,7 +30,7 @@ build: ## Build the project for the current platform
 ci: ci-linters ci-tests ## Run all the CI targets
 
 ci-linters: ## Run the static analyzers
-	@echo "Not implemented yet." && exit 1
+	gometalinter.v2 --skip=vendor ./...
 
 ci-tests: ## Run the unit tests
 	go test pkg/*
@@ -42,12 +42,12 @@ clean-code: ## Remove unwanted files in this project (!DESTRUCTIVE!)
 
 dist: $(PLATFORMS) ## Package the project for all available platforms
 
-prepare: ## Prepare the environment
+setup: ## Setup the full environment (default)
 	glide install
+	gometalinter.v2 --version || go get -u gopkg.in/alecthomas/gometalinter.v2
+	gometalinter.v2 --install
 
-setup: prepare ## Setup the full environment (default)
-
-.PHONY: help build ci ci-linters ci-tests clean clean-code dist prepare setup
+.PHONY: help build ci ci-linters ci-tests clean clean-code dist setup
 
 $(PLATFORMS): # Build the project for all available platforms
 	mkdir -p $(BUILD_DIR)
