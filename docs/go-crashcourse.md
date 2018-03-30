@@ -10,15 +10,16 @@ service: [ipify](https://www.ipify.org/).
 
 Here are the steps that we will tackle about for this project:
 1. Worskpace organization
-  1. Scaffolding best practices (tools?)
+    1. Scaffolding best practices (tools?)
 2. Dependency management (glide)
 3. Lint the code
-4. Use cobra for the CLI
-5. Use viper to read parameters from a configuration file
-6. Write unit tests w/mocks (testify)
-7. Debug the application (delve)
-8. Write and publish documentation
-9. Package the application
+4. Write unit tests w/mocks (testify)
+5. Setup a CI (CircleCI)
+6. Use cobra for the CLI
+7. Use viper to read parameters from a configuration file
+8. Debug the application (delve)
+9. Write and publish documentation
+10. Package the application
 
 C'est parti!
 
@@ -74,29 +75,30 @@ git init
 * [Project layout](https://github.com/golang-standards/project-layout)
 * [Go Start](https://github.com/alco/gostart#motivation)
 
-## CLI
+## Dependency management
 
-Start by Configuring `cobra`. Putting the author name and the license is a good start:
+Install glide:
 ```bash
-cat << EOF > ~/.cobra.yaml
-author: Rémy Greinhofer <remy.greinhofer@gmail.com>, Dashiel Lopez Mendez <hi@dashiel.me>
-license: MIT
-EOF
+brew install glide
 ```
-Refer to the "[configuring the cobra generator](https://github.com/spf13/cobra/blob/master/cobra/README.md)" section of
-the official documentation for more details.
 
-Now install `cobra`, initialize the project and create your first command:
+Initialize your repo and fetch the dependencies:
 ```bash
-go get -u github.com/spf13/cobra/cobra
-cobra init
-cobra add ip
+glide init
+glide update
+```
+
+You should add the `vendor/` folder to your `.gitignore` file. It will help keep your repo small and all of your
+dependencies are already well defined in `glide.yaml`.
+
+And you can install your dependencies using `glide get` instead of `go get`:
+```bash
+glide get github.com/foo/bar
 ```
 
 ### Resources
 
-* [5 keys to create a killer CLI in Go](https://blog.alexellis.io/5-keys-to-a-killer-go-cli/)
-* [Cobra](https://github.com/spf13/cobra)
+* [Glide](https://glide.sh)
 
 ## Linters
 
@@ -125,31 +127,6 @@ Create a `.gometalinter.json` configuration file
 * [Go vet](https://golang.org/cmd/vet/)
 * [Go Style Common Mistakes](https://golang.org/s/style)
 
-## Dependency management
-
-Install glide:
-```bash
-brew install glide
-```
-
-Initialize your repo and fetch the dependencies:
-```bash
-glide init
-glide update
-```
-
-You should add the `vendor/` folder to your `.gitignore` file. It will help keep your repo small and all of your
-dependencies are already well defined in `glide.yaml`.
-
-And you can install your dependencies using `glide get` instead of `go get`:
-```bash
-glide get github.com/foo/bar
-```
-
-### Resources
-
-* [Glide](https://glide.sh)
-
 ## Unit tests
 
 Install testify:
@@ -163,6 +140,34 @@ We're going to test the `api.go` file. In the `pkg` folder, create a file named 
 
 * [testify](https://github.com/stretchr/testify)
 * <http://lucasfcosta.com/2017/01/11/Getting-Started-With-Testing-in-Go.html>
+
+## Setup a CI (CircleCI)
+
+Create a configuration file in `.circleci/config.yml`.
+
+## CLI
+
+Start by Configuring `cobra`. Putting the author name and the license is a good start:
+```bash
+cat << EOF > ~/.cobra.yaml
+author: Rémy Greinhofer <remy.greinhofer@gmail.com>, Dashiel Lopez Mendez <hi@dashiel.me>
+license: MIT
+EOF
+```
+Refer to the "[configuring the cobra generator](https://github.com/spf13/cobra/blob/master/cobra/README.md)" section of
+the official documentation for more details.
+
+Now install `cobra`, initialize the project and create your first command:
+```bash
+go get -u github.com/spf13/cobra/cobra
+cobra init
+cobra add ip
+```
+
+### Resources
+
+* [5 keys to create a killer CLI in Go](https://blog.alexellis.io/5-keys-to-a-killer-go-cli/)
+* [Cobra](https://github.com/spf13/cobra)
 
 ## Configuration file
 
