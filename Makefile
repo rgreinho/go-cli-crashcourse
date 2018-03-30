@@ -23,6 +23,10 @@ help: # Display help
 			printf "\033[36m%-30s\033[0m %s\n", $$1, $$NF \
 		}' $(MAKEFILE_LIST) | sort
 
+bootstrap-osx: ## Bootstrap a Go setup for OSX
+	@bash scripts/bootstrap-osx.sh
+	@bash scripts/bootstrap-shell.sh
+
 build: ## Build the project for the current platform
 	mkdir -p $(BUILD_DIR)
 	GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o $(BUILD_DIR)/$(PROJECT_NAME)-$(TAG)-$(GOOS)-$(GOARCH)
@@ -47,7 +51,7 @@ setup: ## Setup the full environment (default)
 	gometalinter.v2 --version || go get -u gopkg.in/alecthomas/gometalinter.v2
 	gometalinter.v2 --install
 
-.PHONY: help build ci ci-linters ci-tests clean clean-code dist setup
+.PHONY: help bootstrap-osx build ci ci-linters ci-tests clean clean-code dist setup
 
 $(PLATFORMS): # Build the project for all available platforms
 	mkdir -p $(BUILD_DIR)
