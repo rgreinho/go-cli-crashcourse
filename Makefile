@@ -49,6 +49,8 @@ dist: $(PLATFORMS) ## Package the project for all available platforms
 setup: ## Setup the full environment (default)
 	dep ensure
 	gometalinter --install
+	go get -u github.com/spf13/cobra/cobra
+	go get -u github.com/derekparker/delve/cmd/dlv
 
 .PHONY: help bootstrap-osx build ci ci-linters ci-tests clean clean-code dist setup
 

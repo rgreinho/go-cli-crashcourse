@@ -142,10 +142,10 @@ TODO: Check if we need to add more linters.
 
 Install testify:
 ```bash
-glide get github.com/stretchr/testify
+dep ensure -add github.com/stretchr/testify
 ```
 
-We're going to test the `api.go` file. In the `pkg` folder, create a file named `ipify_test.go`
+We're going to test the `ipify.go` file. In the `pkg` folder, create a file named `ipify_test.go`. The tests show the use of mocks and asserts.
 
 ### Resources
 
@@ -171,6 +171,7 @@ the official documentation for more details.
 Now install `cobra`, initialize the project and create your first command:
 ```bash
 go get -u github.com/spf13/cobra/cobra
+dep ensure -add github.com/spf13/cobra/cobra
 cobra init
 cobra add ip
 ```
@@ -190,7 +191,19 @@ cobra add ip
 
 ### Resources
 
+Install Delve:
+```
+go get -u github.com/derekparker/delve/cmd/dlv
+```
+
+From the directory where the `main.go` is.
+dlv debug -- {command_parameters}
+dlv debug -- ip
+
+Use `runtime.Breakpoint()` to set a breakpoint in your codebase. or using the interactive debugger use the command `break Client.GetIP` or `break ipify.go:25`. Is is similar to all the other command line debuggers like `pdb` or `gdb`.
+
 * [Delve](https://github.com/derekparker/delve)
+Give some more links
 
 ## Write and publish documentation
 
