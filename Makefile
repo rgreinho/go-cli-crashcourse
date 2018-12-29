@@ -15,11 +15,11 @@ OS = $(word 1, $@)
 GOOS = $(shell uname -s | tr A-Z a-z)
 GOARCH = amd64
 
-default: setup
+default: build
 
 help: # Display help
 	@awk -F ':|##' \
-		'/^[^\t].+?:.*?##/ {\
+		'/^[^\t].+?:.*?##/ {
 			printf "\033[36m%-30s\033[0m %s\n", $$1, $$NF \
 		}' $(MAKEFILE_LIST) | sort
 
@@ -47,7 +47,7 @@ clean-code: ## Remove unwanted files in this project (!DESTRUCTIVE!)
 dist: $(PLATFORMS) ## Package the project for all available platforms
 
 setup: ## Setup the full environment (default)
-	dep init
+	dep ensure
 	gometalinter --install
 
 .PHONY: help bootstrap-osx build ci ci-linters ci-tests clean clean-code dist setup
