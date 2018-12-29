@@ -30,9 +30,9 @@ jobs:
             make
 
       - save_cache:
-        paths:
-          - ./vendor
-        key: *repo_cache_key
+          paths:
+            - ./vendor
+          key: *repo_cache_key
       - persist_to_workspace:
           root: *working_directory
 
@@ -60,7 +60,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-        at: *working_directory
+         at: *working_directory
       - run:
           name: Build the project
           command: make build
