@@ -18,18 +18,18 @@ type Client struct {
 }
 
 // Get performs an HTTP GET request against the 'ipify.org' api.
-func (i *Client) Get() (*http.Response, error) {
-	httpClient := i.HTTPClient
-	if httpClient == nil {
-		httpClient = http.DefaultClient
-	}
+// func (i *Client) Get() (*http.Response, error) {
+// 	httpClient := i.HTTPClient
+// 	if httpClient == nil {
+// 		httpClient = http.DefaultClient
+// 	}
 
-	res, err := httpClient.Get(baseURL)
-	if err != nil {
-		return nil, err
-	}
-	return res, err
-}
+// 	res, err := httpClient.Get(baseURL)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return res, err
+// }
 
 func (i *Client) String(res *http.Response) (string, error) {
 	ip, err := ioutil.ReadAll(res.Body)
@@ -42,10 +42,16 @@ func (i *Client) String(res *http.Response) (string, error) {
 
 // GetIP retrieves the public IP of the clien.
 func (i *Client) GetIP() (string, error) {
-	res, err := i.Get()
+	httpClient := i.HTTPClient
+	if httpClient == nil {
+		httpClient = http.DefaultClient
+	}
+
+	res, err := httpClient.Get(baseURL)
 	if err != nil {
 		return "", err
 	}
+	defer res.Body.Close()
 
 	return i.String(res)
 }
