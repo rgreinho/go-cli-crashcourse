@@ -209,14 +209,25 @@ Give some more links
 
 ### Resources
 
-* [GoDoc]
+Godoc will read your codebase from the repository directly and generate ther documentation on the fly. For instance <https://godoc.org/github.com/rgreinho/go-cli-crashcourse/pkg>.
+
+* `godoc ./pkg` to generate the documentation in the terminal (not very usefull though).
+* `godoc -http=:6060` and browse to <http://localhost:6060/pkg/github.com/rgreinho/go-cli-crashcourse/pkg/>
+
+* [GoDoc](https://godoc.org/golang.org/x/tools/cmd/godoc)
 
 ## Package the application
 
-### Resources
+Just use the `Makefile` and run `make build` to build a binary for your achitecture only, or `make dist` to build it for
+all architectures specified in the `Makefile`.
 
-## Resources
+## General Resources
 
 * [Learn](https://github.com/golang/go/wiki/Learn)
 * [Go start](https://github.com/alco/gostart)
 * [GolangBot tutorial series](https://golangbot.com/learn-golang-series/)
+
+## Credits
+
+* [Dashiel Lopez Mendez](https://github.com/laconc)
+* [Alex Robinson](https://github.com/a-robinson)
