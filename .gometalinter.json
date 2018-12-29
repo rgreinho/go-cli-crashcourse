@@ -1,5 +1,6 @@
 {
   "Enable": [
+    "errcheck",
     "goimports",
     "golint",
     "vet"

@@ -120,12 +120,15 @@ Create a `.gometalinter.json` configuration file
 ```json
 {
   "Enable": [
+    "errcheck",
     "goimports",
     "golint",
     "vet"
   ]
 }
 ```
+
+TODO: Check if we need to add more linters.
 
 ### Resources
 

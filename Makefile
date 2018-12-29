@@ -48,6 +48,7 @@ dist: $(PLATFORMS) ## Package the project for all available platforms
 
 setup: ## Setup the full environment (default)
 	dep init
+	gometalinter --install
 
 .PHONY: help bootstrap-osx build ci ci-linters ci-tests clean clean-code dist setup
 
