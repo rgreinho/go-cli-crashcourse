@@ -34,7 +34,7 @@ build: ## Build the project for the current platform
 ci: ci-linters ci-tests ## Run all the CI targets
 
 ci-linters: ## Run the static analyzers
-	gometalinter.v2 --skip=vendor ./...
+	gometalinter --skip=vendor ./...
 
 ci-tests: ## Run the unit tests
 	go test pkg/*
@@ -47,9 +47,7 @@ clean-code: ## Remove unwanted files in this project (!DESTRUCTIVE!)
 dist: $(PLATFORMS) ## Package the project for all available platforms
 
 setup: ## Setup the full environment (default)
-	glide install
-	gometalinter.v2 --version || go get -u gopkg.in/alecthomas/gometalinter.v2
-	gometalinter.v2 --install
+	dep init
 
 .PHONY: help bootstrap-osx build ci ci-linters ci-tests clean clean-code dist setup
 
