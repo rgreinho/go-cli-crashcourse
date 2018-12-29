@@ -25,7 +25,7 @@ jobs:
 
             # Install Go Metalinter.
             echo $PATH
-            curl -L https://git.io/vp6lP | sh -s -- -b $(go env GOPATH)/bin -d
+            curl -L https://git.io/vp6lP | sh -s -- -b /usr/local/bin -d
 
             # Setup the environment.
             make setup
