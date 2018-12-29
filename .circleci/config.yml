@@ -27,7 +27,7 @@ jobs:
             curl -L https://git.io/vp6lP | sh
 
             # Setup the environment.
-            export PATH=$PATH:$(go env GOPATH)/bin
+            export PATH=$PATH:$(go env GOPATH)/bin:$PWD/bin
             make setup
 
       - save_cache:
