@@ -17,29 +17,6 @@ type Client struct {
 	HTTPClient Getter
 }
 
-// Get performs an HTTP GET request against the 'ipify.org' api.
-// func (i *Client) Get() (*http.Response, error) {
-// 	httpClient := i.HTTPClient
-// 	if httpClient == nil {
-// 		httpClient = http.DefaultClient
-// 	}
-
-// 	res, err := httpClient.Get(baseURL)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return res, err
-// }
-
-func (i *Client) String(res *http.Response) (string, error) {
-	ip, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return "", err
-	}
-
-	return string(ip), nil
-}
-
 // GetIP retrieves the public IP of the clien.
 func (i *Client) GetIP() (string, error) {
 	httpClient := i.HTTPClient
@@ -53,5 +30,10 @@ func (i *Client) GetIP() (string, error) {
 	}
 	defer res.Body.Close()
 
-	return i.String(res)
+	ip, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return "", err
+	}
+
+	return string(ip), nil
 }
