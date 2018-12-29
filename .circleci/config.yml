@@ -24,7 +24,7 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 
             # Install Go Metalinter.
-            # echo $PWD
+            echo $PWD
             # curl -L https://git.io/vp6lP | sh
 
             # Setup the environment.
@@ -36,6 +36,7 @@ jobs:
           key: *repo_cache_key
       - persist_to_workspace:
           root: *working_directory
+          paths: ./
 
   lint:
     <<: *defaults
