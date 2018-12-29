@@ -27,7 +27,7 @@ jobs:
             curl -L https://git.io/vp6lP | sh
 
             # Setup the environment.
-            make
+            make setup
 
       - save_cache:
           paths:
