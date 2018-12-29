@@ -15,11 +15,11 @@ OS = $(word 1, $@)
 GOOS = $(shell uname -s | tr A-Z a-z)
 GOARCH = amd64
 
-default: setup
+default: build
 
 help: # Display help
 	@awk -F ':|##' \
-		'/^[^\t].+?:.*?##/ {\
+		'/^[^\t].+?:.*?##/ {
 			printf "\033[36m%-30s\033[0m %s\n", $$1, $$NF \
 		}' $(MAKEFILE_LIST) | sort
 
@@ -34,8 +34,7 @@ build: ## Build the project for the current platform
 ci: ci-linters ci-tests ## Run all the CI targets
 
 ci-linters: ## Run the static analyzers
-	gometalinter.v2 --skip=vendor ./...
-
+	gometalinter --skip=vendor ./... || true
 ci-tests: ## Run the unit tests
 	go test pkg/*
 
@@ -47,9 +46,10 @@ clean-code: ## Remove unwanted files in this project (!DESTRUCTIVE!)
 dist: $(PLATFORMS) ## Package the project for all available platforms
 
 setup: ## Setup the full environment (default)
-	glide install
-	gometalinter.v2 --version || go get -u gopkg.in/alecthomas/gometalinter.v2
-	gometalinter.v2 --install
+	dep ensure
+	gometalinter --install || true
+	go get -u github.com/spf13/cobra/cobra
+	go get -u github.com/derekparker/delve/cmd/dlv
 
 .PHONY: help bootstrap-osx build ci ci-linters ci-tests clean clean-code dist setup
 

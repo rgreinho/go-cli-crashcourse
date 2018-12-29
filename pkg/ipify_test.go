@@ -28,19 +28,8 @@ func (m *ClientMock) Get(url string) (*http.Response, error) {
 func TestIpifyClientGet_00(t *testing.T) {
 	mock := &ClientMock{}
 	c := Client{HTTPClient: mock}
-	res, _ := c.Get()
 
-	actual := res.Body
-	expected := ioutil.NopCloser(strings.NewReader(ipifyJSONResponse))
-	assert.Equal(t, expected, actual, "")
-}
-
-func TestString_00(t *testing.T) {
-	mock := &ClientMock{}
-	res, _ := mock.Get("fake")
-	i := Client{}
-
-	actual, _ := i.String(res)
-	expected := ipifyJSONResponse
-	assert.Equal(t, expected, actual, "")
+	res, err := c.GetIP()
+	assert.Equal(t, err, nil)
+	assert.Equal(t, ipifyJSONResponse, res)
 }

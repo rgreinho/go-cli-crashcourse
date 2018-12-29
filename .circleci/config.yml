@@ -1,43 +1,83 @@
+working_directory: &working_directory
+  "/go/src/github.com/rgreinho/go-cli-crashcourse"
+
 defaults: &defaults
-  working_directory: "/go/src/github.com/rgreinho/go-cli-crashcourse"
+  docker:
+    - image: circleci/golang:1.11.4-node-browsers-legacy
+  working_directory: *working_directory
+
+repo_cache_key: &repo_cache_key
+  vendor-{{ checksum "Gopkg.lock" }}
 
 version: 2
 jobs:
-  go:
+  prepare:
     <<: *defaults
-    docker:
-      - image: circleci/golang:1.10.0
-
     steps:
       - checkout
       - restore_cache:
-          keys:
-            - vendor-{{ checksum "glide.lock" }}
+          keys: *repo_cache_key
       - run:
           name: Prepare the environment
           command: |
-            curl https://glide.sh/get | sh
-            make
+            # Install Go dep.
+            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+
+            # Install Go Metalinter.
+            echo $PWD
+            # curl -L https://git.io/vp6lP | sh
+
+            # Setup the environment.
+            make setup
 
       - save_cache:
-          key: vendor-{{ checksum "glide.lock" }}
           paths:
-            - vendor
+            - ./vendor
+          key: *repo_cache_key
+      - persist_to_workspace:
+          root: *working_directory
+          paths: ./
 
+  lint:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: *working_directory
       - run:
-          name: Run the linters
+          name: run linters
           command: make ci-linters
 
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: *working_directory
       - run:
           name: Run unit tests
           command: make ci-tests
-
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+         at: *working_directory
       - run:
-          name: Build the propject
+          name: Build the project
           command: make build
 
 workflows:
   version: 2
-  go:
+  gates:
     jobs:
-      - go
+      - prepare
+      - build:
+          requires:
+            - prepare
+      - lint:
+          requires:
+            - prepare
+      - test:
+          requires:
+            - prepare

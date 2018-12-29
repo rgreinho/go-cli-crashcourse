@@ -54,6 +54,11 @@ cd "${GO_CRASH_COURSE}"
 git init
 ```
 
+Refer to the link in the resource section to learn more about other standard directories.
+
+The outputs of the build will go to `/dist`.
+
+
 ### Project organization
 
 ```bash
@@ -61,6 +66,7 @@ git init
 ├── LICENSE
 ├── Makefile
 ├── README.md
+├── .gitignore
 ├── cmd/
 ├── docs/
 ├── main.go
@@ -77,47 +83,52 @@ git init
 
 ## Dependency management
 
-Install glide:
-```bash
-brew install glide
+To manage the dependencies we are using `Go dep`:
+```
+brew install dep
 ```
 
 Initialize your repo and fetch the dependencies:
-```bash
-glide init
-glide update
+```
+dep init
 ```
 
-You should add the `vendor/` folder to your `.gitignore` file. It will help keep your repo small and all of your
-dependencies are already well defined in `glide.yaml`.
+You can run dep ensure to have `dep` import any new dependencies that you would need.
 
-And you can install your dependencies using `glide get` instead of `go get`:
+You should add the `vendor/` folder to your `.gitignore` file. It will help keep your repo small and all of your
+dependencies are already well defined in `Gopkg.toml`.
+
+And you can install your dependencies using `dep ensure -add`:
 ```bash
-glide get github.com/foo/bar
+dep ensure -add github.com/foo/bar
 ```
 
 ### Resources
 
-* [Glide](https://glide.sh)
+* [Dep](https://github.com/golang/dep)
 
 ## Linters
 
 To lint our project we will use [GoMetaLinter](https://github.com/alecthomas/gometalinter).
 
-```bash
-go get -u gopkg.in/alecthomas/gometalinter.v2
+```
+brew tap alecthomas/homebrew-tap
+brew install gometalinter
 ```
 
 Create a `.gometalinter.json` configuration file
 ```json
 {
   "Enable": [
+    "errcheck",
     "goimports",
     "golint",
     "vet"
   ]
 }
 ```
+
+TODO: Check if we need to add more linters.
 
 ### Resources
 
@@ -131,10 +142,10 @@ Create a `.gometalinter.json` configuration file
 
 Install testify:
 ```bash
-glide get github.com/stretchr/testify
+dep ensure -add github.com/stretchr/testify
 ```
 
-We're going to test the `api.go` file. In the `pkg` folder, create a file named `ipify_test.go`
+We're going to test the `ipify.go` file. In the `pkg` folder, create a file named `ipify_test.go`. The tests show the use of mocks and asserts.
 
 ### Resources
 
@@ -160,6 +171,7 @@ the official documentation for more details.
 Now install `cobra`, initialize the project and create your first command:
 ```bash
 go get -u github.com/spf13/cobra/cobra
+dep ensure -add github.com/spf13/cobra/cobra
 cobra init
 cobra add ip
 ```
@@ -179,20 +191,43 @@ cobra add ip
 
 ### Resources
 
+Install Delve:
+```
+go get -u github.com/derekparker/delve/cmd/dlv
+```
+
+From the directory where the `main.go` is.
+dlv debug -- {command_parameters}
+dlv debug -- ip
+
+Use `runtime.Breakpoint()` to set a breakpoint in your codebase. or using the interactive debugger use the command `break Client.GetIP` or `break ipify.go:25`. Is is similar to all the other command line debuggers like `pdb` or `gdb`.
+
 * [Delve](https://github.com/derekparker/delve)
+Give some more links
 
 ## Write and publish documentation
 
 ### Resources
 
-* [GoDoc]
+Godoc will read your codebase from the repository directly and generate ther documentation on the fly. For instance <https://godoc.org/github.com/rgreinho/go-cli-crashcourse/pkg>.
+
+* `godoc ./pkg` to generate the documentation in the terminal (not very usefull though).
+* `godoc -http=:6060` and browse to <http://localhost:6060/pkg/github.com/rgreinho/go-cli-crashcourse/pkg/>
+
+* [GoDoc](https://godoc.org/golang.org/x/tools/cmd/godoc)
 
 ## Package the application
 
-### Resources
+Just use the `Makefile` and run `make build` to build a binary for your achitecture only, or `make dist` to build it for
+all architectures specified in the `Makefile`.
 
-## Resources
+## General Resources
 
 * [Learn](https://github.com/golang/go/wiki/Learn)
 * [Go start](https://github.com/alco/gostart)
 * [GolangBot tutorial series](https://golangbot.com/learn-golang-series/)
+
+## Credits
+
+* [Dashiel Lopez Mendez](https://github.com/laconc)
+* [Alex Robinson](https://github.com/a-robinson)
