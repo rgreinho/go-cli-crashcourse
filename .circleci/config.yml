@@ -24,6 +24,7 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 
             # Install Go Metalinter.
+            echo $PWD
             curl -L https://git.io/vp6lP | sh
 
             # Setup the environment.
@@ -44,7 +45,7 @@ jobs:
           at: *working_directory
       - run:
           name: run linters
-          command: true
+          command: make ci-linters
 
   test:
     <<: *defaults
