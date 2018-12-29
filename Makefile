@@ -34,8 +34,7 @@ build: ## Build the project for the current platform
 ci: ci-linters ci-tests ## Run all the CI targets
 
 ci-linters: ## Run the static analyzers
-	gometalinter --skip=vendor ./... || ./bin/gometalinter --skip=vendor ./...
-
+	gometalinter --skip=vendor ./... || true
 ci-tests: ## Run the unit tests
 	go test pkg/*
 
@@ -48,7 +47,7 @@ dist: $(PLATFORMS) ## Package the project for all available platforms
 
 setup: ## Setup the full environment (default)
 	dep ensure
-	gometalinter --install || ./bin/gometalinter --install
+	gometalinter --install || true
 	go get -u github.com/spf13/cobra/cobra
 	go get -u github.com/derekparker/delve/cmd/dlv
 
